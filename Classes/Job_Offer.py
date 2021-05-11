@@ -6,9 +6,19 @@ class Job_Offer:
         self.key_words_list = key_words_list
 
     def show_title(self, id):
-        return self.title
+        if self.id == id:
+            return self.title
 
     def show_descrption(self, id):
-        return self.descrption
+        if self.id == id:
+            return self.descrption
+
+    def fiter(self, filters):
+        for f in filters:
+            if f in self.key_words_list:
+                return self
+
+    
+
 
 
