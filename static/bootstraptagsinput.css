@@ -29,6 +29,7 @@
   float: top;
   color: #777;
   opacity: 1;
+  font-size: 10px;
 }
 .bootstrap-tagsinput.form-control input:-ms-input-placeholder {
   float: top;

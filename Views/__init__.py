@@ -1,1 +1,1 @@
-from Views.viewstart import index
+from Views.viewstart import main_page

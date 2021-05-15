@@ -48,20 +48,31 @@
         {% block side_panel %}
             <div class="container">
                 <div class="col-md-5 mt-3 float-right offset-0">
-                    <div class="card" style=" align-items: center;">
-                        <form action="/" method="POST" id="filter-form">
-                            <!-- max liczba tagów = 5 -->
-                            <div>
-                                <input data-role="tagsinput" id="tags_input" type="text" placeholder="Słowo kluczowe" name="filter">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px">Wynagrodzenie</h1>
                             </div>
-
-                            <div class="row justify-content-center">
-                                <input type="submit" value="Filtruj">
+                            <div class="card-text text-muted" style="padding-left: 20px">
+                                <p>{{ offer.bottomSalaryRange }} - {{ offer.upperSalaryRange }}</p>
                             </div>
-                        </form>
-
-                        <div class="card-text" style="padding: 4px; text-align: center">
-                            <p>Wpisz słowo kluczowe, bądź nazwę stanowiska i zatwierdź przyciskiem, aby filtrować oferty.</p>
+                            <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px">Dodatkowe korzyści</h1>
+                            </div>
+                            <div style="padding-left: 10px">
+                                <!-- zamienic na funkcję z modeli -->
+                                {% for benefit in offer.split_benefits %}
+                                    <li class="card-text text-muted">{{ benefit }}</li>
+                                {% endfor %}
+                            </div>
+                            <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px; padding-top: 10px">Mile widziane</h1>
+                            </div>
+                            <div style="padding-left: 10px">
+                                {% for nth in offer.split_nth %}
+                                    <li class="card-text text-muted">{{ nth }}</li>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,47 +83,17 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 mt-3 left">
-                        {% for offer in data %}
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <h1 class="card-title"> {{ offer.title }} </h1>
-                                    <p class="card-text text-muted h6"> {{ offer.creation_date }} - {{ offer.dueDate }} </p>
-                                    <p class="card-text"> {{ offer.description | slice:":300" }} </p>
-                                    <a href="#" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black">Zobacz szczegóły</a>
-                                </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h1 class="card-title"> {{ offer.title }} </h1>
+                                <p class="card-text text-muted h6"> {{ offer.creation_date }} - {{ offer.dueDate }} </p>
+                                <p class="card-text"> {{ offer.description }} </p>
+                                <a href="#" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black;">Aplikuj</a>
                             </div>
-                        {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         {% endblock %}
-
-        <script type = "text/javascript">
-            $('#filter-form').submit(function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    type: 'POST',
-                    url:"/",
-                    data: {
-                        filterList: $("#tags_input").tagsinput('items')
-                    }
-                });
-
-            });
-
-            $('#filter-form').bind('keypress', function(e) {
-                if (e.keyCode === 13) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-
-            $("#tags_input").tagsinput({
-                maxTags: 5,
-                maxChars: 20
-            });
-
-        </script>
     </body>
 </html>
