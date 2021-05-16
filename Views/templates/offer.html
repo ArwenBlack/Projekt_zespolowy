@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="{% static 'bootstraptagsinput.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
+
+
+        <title>
+            Lorem ipsum
+        </title>
+
+
+        {% block menu %}
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <a class="navbar-brand" href="#">Lorem ipsum</a>
+
+                <!-- poprawić collapse -->
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Strona główna</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Zaloguj</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        {% endblock %}
+
+        <div class="p-5 text-center" style="background-color: #e8e8e4">
+            <h1 class="mb-3">Lorem ipsum</h1>
+            <h4 class="mb-3">Lorem ipsum dolor sit amet</h4>
+        </div>
+
+    </head>
+
+    <body>
+        {% block side_panel %}
+            <div class="container">
+                <div class="col-md-5 mt-3 float-right offset-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px">Wynagrodzenie</h1>
+                            </div>
+                            <div class="card-text text-muted" style="padding-left: 20px">
+                                <p>{{ offer.bottomSalaryRange }} - {{ offer.upperSalaryRange }}</p>
+                            </div>
+                            <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px">Dodatkowe korzyści</h1>
+                            </div>
+                            <div style="padding-left: 10px">
+                                <!-- zamienic na funkcję z modeli -->
+                                {% for benefit in offer.split_benefits %}
+                                    <li class="card-text text-muted">{{ benefit }}</li>
+                                {% endfor %}
+                            </div>
+                            <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px; padding-top: 10px">Mile widziane</h1>
+                            </div>
+                            <div style="padding-left: 10px">
+                                {% for nth in offer.split_nth %}
+                                    <li class="card-text text-muted">{{ nth }}</li>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block offer %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mt-3 left">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h1 class="card-title"> {{ offer.title }} </h1>
+                                <p class="card-text text-muted h6"> {{ offer.creation_date }} - {{ offer.dueDate }} </p>
+                                <p class="card-text"> {{ offer.description }} </p>
+                                <a href="#" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black;">Aplikuj</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+    </body>
+</html>
