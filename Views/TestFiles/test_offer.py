@@ -1,13 +1,25 @@
 import datetime
 
 
-from Projekt_zespołowy.models import JobOffer
+# dane testowe - do usunięcia po konfiguracji modeli
+class Offer:
+    def __init__(self, title, isActive, creation_date, dueDate, description, bottomSalaryRange,
+            upperSalaryRange, additionalBenefits, niceToHave):
+        self.title = title
+        self.isActive = isActive
+        self.creation_date = creation_date
+        self.dueDate = dueDate
+        self.description = description
+        self.bottomSalaryRange = bottomSalaryRange
+        self.upperSalaryRange = upperSalaryRange
+        self.additionalBenefits = additionalBenefits
+        self.niceToHave = niceToHave
 
-def split_benefits(additionalBenefits):
-        return additionalBenefits.split(',')
+    def split_benefits(self):
+        return self.additionalBenefits.split(',')
 
-def split_nth(niceToHave):
-        return niceToHave.split(",")
+    def split_nth(self):
+        return self.niceToHave.split(",")
 
 
 title = "Job offer"
@@ -32,5 +44,5 @@ description = "Suspendisse sollicitudin nec lacus non aliquam. Nulla vehicula, n
 additional = "first,second,third,fourth"
 nice = "something,nice,to,have"
 
-first_offer = JobOffer(title, True, date1, date2, description, 8000, 15000, additional, nice)
+first_offer = Offer(title, True, date1, date2, description, 8000, 15000, additional, nice)
 
