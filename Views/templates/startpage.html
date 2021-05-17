@@ -78,7 +78,7 @@
                                     <h1 class="card-title"> {{ offer.title }} </h1>
                                     <p class="card-text text-muted h6"> {{ offer.creation_date }} - {{ offer.dueDate }} </p>
                                     <p class="card-text"> {{ offer.description | slice:":300" }} </p>
-                                    <a href="#" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black">Zobacz szczegóły</a>
+                                    <a href="{% url 'offer_page' offer.title %}" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black">Zobacz szczegóły</a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -93,10 +93,13 @@
 
                 $.ajax({
                     type: 'POST',
-                    url:"/",
+                    url:"",
                     data: {
                         filterList: $("#tags_input").tagsinput('items')
-                    }
+                    },
+                    success: function(data) {
+                       $('#body').html(data);
+            },
                 });
 
             });

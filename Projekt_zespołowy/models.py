@@ -34,8 +34,8 @@ class JobOffer(models.Model):
     creation_date = models.DateField(null=False)
     dueDate = models.DateField()
     description = models.CharField(max_length=5000)
-    bottomSalaryRange = models.IntegerField(max_length=10, null=False)
-    upperSalaryRange = models.IntegerField(max_length=10, null=False)
+    bottomSalaryRange = models.IntegerField(null=False)
+    upperSalaryRange = models.IntegerField(null=False)
     additionalBenefits = models.CharField(max_length=5000)
     niceToHave = models.CharField(max_length=5000)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
@@ -66,7 +66,7 @@ class Experience(models.Model):
 
 class Education(models.Model):
     name = models.CharField(max_length=255, null=False)
-    description = models.CharField(512)
+    description = models.CharField(max_length = 512)
     degree = models.CharField(max_length=255, null=False)
     graduationDateOrExpectedDate = models.DateField(null=False)
     inProgress = models.BooleanField(null=False)
@@ -80,5 +80,5 @@ class PromisingCandidate(models.Model):
 
 class OpinionAboutCandidate(models.Model):
     Content = models.CharField(max_length=5000, null=False)
-    candidate = models.ForeignKey(Person, on_delete=models.CASCADE, null=False)
-    hrManager = models.ForeignKey(Person, on_delete=models.CASCADE, null=False)
+    candidate = models.ForeignKey(Person, related_name = 'candidate',on_delete=models.CASCADE, null=False)
+    hrManager = models.ForeignKey(Person, related_name = 'hr', on_delete=models.CASCADE, null=False)

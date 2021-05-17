@@ -45,4 +45,4 @@ additional = "first,second,third,fourth"
 nice = "something,nice,to,have"
 
 first_offer = Offer(title, True, date1, date2, description, 8000, 15000, additional, nice)
-second_offer = first_offer
+
