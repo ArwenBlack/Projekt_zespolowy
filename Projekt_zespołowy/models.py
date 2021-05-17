@@ -20,7 +20,7 @@ class PersonRole(models.Model):
 class Meeting(models.Model):
     title = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=512)
-    date = models.DateField(null= False)
+    date = models.DateField(null=False)
 
 
 class PersonMeeting(models.Model):
@@ -34,22 +34,11 @@ class JobOffer(models.Model):
     creation_date = models.DateField(null=False)
     dueDate = models.DateField()
     description = models.CharField(max_length=5000)
-    bottomSalaryRange = models.IntegerField(null=False)
-    upperSalaryRange = models.IntegerField(null=False)
+    bottomSalaryRange = models.IntegerField(max_length=10, null=False)
+    upperSalaryRange = models.IntegerField(max_length=10, null=False)
     additionalBenefits = models.CharField(max_length=5000)
     niceToHave = models.CharField(max_length=5000)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
-
-    def __init__(self,a,b,c,d,e,f,g,h,j):
-        self.title = a
-        self.isActive =b
-        self.creation_date = c
-        self.dueDate = d
-        self.description = e
-        self.bottomSalaryRange=f
-        self.upperSalaryRange = g
-        self.additionalBenefits = h
-        self.niceToHave = j
 
 
 class Requirement(models.Model):
@@ -77,7 +66,7 @@ class Experience(models.Model):
 
 class Education(models.Model):
     name = models.CharField(max_length=255, null=False)
-    description = models.CharField(max_length = 512)
+    description = models.CharField(512)
     degree = models.CharField(max_length=255, null=False)
     graduationDateOrExpectedDate = models.DateField(null=False)
     inProgress = models.BooleanField(null=False)
@@ -91,5 +80,5 @@ class PromisingCandidate(models.Model):
 
 class OpinionAboutCandidate(models.Model):
     Content = models.CharField(max_length=5000, null=False)
-    candidate = models.ForeignKey(Person, related_name = 'candidate',on_delete=models.CASCADE, null=False)
-    hrManager = models.ForeignKey(Person, related_name = 'hr', on_delete=models.CASCADE, null=False)
+    candidateId = models.IntegerField(null=False)
+    hrManager = models.ForeignKey(Person, on_delete=models.CASCADE, null=False)
