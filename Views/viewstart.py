@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, loader, get_object_or_404
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
-
+from django.http import JsonResponse
+from django.core import serializers
+from django.forms.models import model_to_dict
 # dane testowe
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
@@ -16,15 +18,13 @@ def main_page(request):
         # lista wpisanych i zatwierdzonych tagów
         req = request.POST.copy()
         tags = req.getlist('filterList[]')
-        print(request.POST)
-        print(tags)
         data_filtered = []
         for x in data:
             for t in tags:
                 if t in x.description:
                     data_filtered.append(x)
-        print(data_filtered)
-        return render(request, "startpage.html", {'data': data_filtered})
+        serialized_data = serializers.serialize('json', data)
+        return JsonResponse(serialized_data, safe=False)
     # filtrowanie ofert na podstawie wpisanych tagów
     # tablica z ofertami, którą prześle się jako argument
 
