@@ -20,7 +20,7 @@ class PersonRole(models.Model):
 class Meeting(models.Model):
     title = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=512)
-    date = models.DateField(null= False)
+    date = models.DateField(null=False)
 
 
 class PersonMeeting(models.Model):
@@ -91,5 +91,5 @@ class PromisingCandidate(models.Model):
 
 class OpinionAboutCandidate(models.Model):
     Content = models.CharField(max_length=5000, null=False)
-    candidate = models.ForeignKey(Person, related_name = 'candidate',on_delete=models.CASCADE, null=False)
-    hrManager = models.ForeignKey(Person, related_name = 'hr', on_delete=models.CASCADE, null=False)
+    candidateId = models.IntegerField(null=False)
+    hrManager = models.ForeignKey(Person, on_delete=models.CASCADE, null=False)
