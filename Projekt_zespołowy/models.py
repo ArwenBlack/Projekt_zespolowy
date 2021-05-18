@@ -7,15 +7,9 @@ class Person(models.Model):
     email = models.CharField(max_length=255, unique=True, null=False)
     phone = models.CharField(max_length=12, unique=True, null=False)
 
-    def __str__(self):
-        return self.name
-
 
 class Role(models.Model):
     name = models.CharField(max_length=255, null=False, unique=True)
-
-    def __str__(self):
-        return self.name
 
 
 class PersonRole(models.Model):
@@ -46,28 +40,22 @@ class JobOffer(models.Model):
     niceToHave = models.CharField(max_length=5000)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.title
-
-    # def __init__(self,a,b,c,d,e,f,g,h,j):
-    #     self.title = a
-    #     self.isActive =b
-    #     self.creation_date = c
-    #     self.dueDate = d
-    #     self.description = e
-    #     self.bottomSalaryRange=f
-    #     self.upperSalaryRange = g
-    #     self.additionalBenefits = h
-    #     self.niceToHave = j
+    def __init__(self,a,b,c,d,e,f,g,h,j):
+        self.title = a
+        self.isActive =b
+        self.creation_date = c
+        self.dueDate = d
+        self.description = e
+        self.bottomSalaryRange=f
+        self.upperSalaryRange = g
+        self.additionalBenefits = h
+        self.niceToHave = j
 
 
 class Requirement(models.Model):
     name = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=512, null=False)
     jobOffer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
 
 
 class Application(models.Model):
