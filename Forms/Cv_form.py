@@ -17,4 +17,4 @@ class CVForm(forms.Form):
         self.helper.layout = Layout(
             'CSV_field'
         )
-        self.helper.add_input(Submit('CV_submit', 'Zatwierdź'))
+        self.helper.add_input(Submit('submit', 'Zatwierdź'))
