@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.forms.models import model_to_dict
 # dane testowe
+from Forms.Cv_form import CVForm
+from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
 from Projekt_zespołowy.models import JobOffer
@@ -59,12 +61,29 @@ def offer_page_test(request):
     return render(request, "offer.html", {'offer': data})
 
 @csrf_protect
-def application_page(request):
+def CV_page(request, offer_title):
+    if request.method == 'POST':
+        form = CVForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = form.cleaned_data.get('CSV_field')
+            data = extract_from_CV(file)
+            print(data)
+            f = ApplicationForm()
+            return render(request, "application_page.html", {'form': f})
+    else:
+        form = CVForm()
+
+    return render(request, "CV_page.html", {'form': form})
+
+@csrf_protect
+def application_page(request, offer_title):
     if request.method == 'POST':
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             return render(request, "application_sent.html")
     else:
+        # form = ApplicationForm(initial = {'name':  'Zofia'})
         form = ApplicationForm()
 
     return render(request, "application_page.html", {'form': form})
+
