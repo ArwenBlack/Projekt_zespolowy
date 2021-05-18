@@ -69,7 +69,7 @@
         {% endblock %}
 
         {% block offer %}
-            <div class="container">
+            <div class="container" id="offers">
                 <div class="row">
                     <div class="col-md-12 mt-3 left">
                         {% for offer in data %}
@@ -98,7 +98,7 @@
                         filterList: $("#tags_input").tagsinput('items')
                     },
                     success: function(data) {
-                       $('#body').html(data);
+                        $('#offers').html(data.data_filtered);
             },
                 });
 
