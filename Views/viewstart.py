@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponse
 from django.shortcuts import render, loader, get_object_or_404
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -60,15 +62,21 @@ def offer_page_test(request):
 
     return render(request, "offer.html", {'offer': data})
 
+
+def handle_uploaded_file(f):
+    with open('temp_data/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 @csrf_protect
 def CV_page(request, offer_title):
     if request.method == 'POST':
         form = CVForm(request.POST, request.FILES)
         if form.is_valid():
-            file = form.cleaned_data.get('CSV_field')
-            data = extract_from_CV(file)
-            print(data)
-            f = ApplicationForm()
+            handle_uploaded_file(request.FILES['CSV_field'])
+            file = request.FILES['CSV_field']
+            data = extract_from_CV('temp_data/' + str(file) )
+            os.remove('temp_data/' + str(file))
+            f = ApplicationForm(initial={'name': data[0], 'surname': data[1], 'phoneNumber': data[2], 'emailAddress': data[3]})
             return render(request, "application_page.html", {'form': f})
     else:
         form = CVForm()
