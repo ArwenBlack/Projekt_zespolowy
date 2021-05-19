@@ -9,5 +9,4 @@ urlpatterns = [
     path('offer/<str:offer_title>/', viewstart.offer_page, name="offer_page"),
     # path('offer_test/', viewstart.offer_page_test, name="offer_page"),
     path('<str:offer_title>/CV_page/', viewstart.CV_page, name='CV_page'),
-    path('<str:offer_title>/application_page/', viewstart.application_page, name='application_page')
 ]
