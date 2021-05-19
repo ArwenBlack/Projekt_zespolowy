@@ -103,3 +103,12 @@ def extract_skills(text):
 
     return [i.capitalize() for i in set([i.lower() for i in skill_set])]
 
+
+def extract_from_CV(CV_dokumnet):
+    CV_text = text_from_pdf(CV_dokumnet)
+    names = extract_names(CV_text)
+    name = names.split()[0]
+    surname = names.split()[1]
+    phone = extract_phone_number(CV_text)
+    mail = extract_email(CV_text)
+    return [name, surname, phone, mail]

@@ -1,3 +1,5 @@
+import os
+
 from django.http import HttpResponse
 from django.shortcuts import render, loader, get_object_or_404
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
@@ -6,6 +8,8 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.forms.models import model_to_dict
 # dane testowe
+from Forms.Cv_form import CVForm
+from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
 from Projekt_zespołowy.models import JobOffer
@@ -58,13 +62,36 @@ def offer_page_test(request):
 
     return render(request, "offer.html", {'offer': data})
 
+
+def handle_uploaded_file(f):
+    with open('temp_data/'+f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 @csrf_protect
-def application_page(request):
+def CV_page(request, offer_title):
+    if request.method == 'POST':
+        form = CVForm(request.POST, request.FILES)
+        if form.is_valid():
+            handle_uploaded_file(request.FILES['CSV_field'])
+            file = request.FILES['CSV_field']
+            data = extract_from_CV('temp_data/' + str(file) )
+            os.remove('temp_data/' + str(file))
+            f = ApplicationForm(initial={'name': data[0], 'surname': data[1], 'phoneNumber': data[2], 'emailAddress': data[3]})
+            return render(request, "application_page.html", {'form': f})
+    else:
+        form = CVForm()
+
+    return render(request, "CV_page.html", {'form': form})
+
+@csrf_protect
+def application_page(request, offer_title):
     if request.method == 'POST':
         form = ApplicationForm(request.POST, request.FILES)
         if form.is_valid():
             return render(request, "application_sent.html")
     else:
+        # form = ApplicationForm(initial = {'name':  'Zofia'})
         form = ApplicationForm()
 
     return render(request, "application_page.html", {'form': form})
+

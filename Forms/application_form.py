@@ -39,7 +39,6 @@ class ApplicationForm(forms.Form):
     emailAddress = forms.EmailField(label='Adres e-mail', max_length=100)
     university = forms.ChoiceField(label='Uniwersytet', choices=UNIVERSITIES)
     languages = forms.MultipleChoiceField(label='Języki', choices=LANGUAGES, widget=forms.CheckboxSelectMultiple)
-    CSV_field = forms.FileField(label='Dodaj CV', widget=forms.ClearableFileInput(attrs={'multiple': False}))
     other_files_field = forms.FileField(label='Dodaj inne pliki', widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
 
     def __init__(self, *args, **kwargs):
@@ -56,7 +55,6 @@ class ApplicationForm(forms.Form):
             'emailAddress',
             'university',
             InlineCheckboxes('languages'),
-            'CSV_field',
             'other_files_field'
 
         )
