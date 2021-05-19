@@ -77,7 +77,9 @@ class Experience(models.Model):
 
 class Education(models.Model):
     name = models.CharField(max_length=255, null=False)
-    description = models.CharField(max_length = 512)
+
+    description = models.CharField(max_length=5000)
+
     degree = models.CharField(max_length=255, null=False)
     graduationDateOrExpectedDate = models.DateField(null=False)
     inProgress = models.BooleanField(null=False)
