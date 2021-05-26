@@ -18,7 +18,7 @@ from Forms.application_form import ApplicationForm
 
 # REGISTER
 from django.shortcuts import  render, redirect
-from Projekt_zespołowy.forms import NewUserForm
+from Projekt_zespołowy.forms import NewUserForm, NewJobOfferForm
 from django.contrib.auth import login
 from django.contrib import messages
 # LOGIN
@@ -154,4 +154,42 @@ def dashboard_page(request):
 
 
 def offer_manager(request):
-    return render(request, "offer_manager.html")
+    data = JobOffer.objects.all()
+    context = {
+        'offers': data
+    }
+    return render(request, "offer_manager.html", context)
+
+
+def offer_manager_add(request):
+    if request.method == "POST":
+        form = NewJobOfferForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    form = NewJobOfferForm
+    return render(request, "offer_manager_add.html", {"new_job_offer": form})
+
+
+def offer_manager_edit(request, id):
+    instance = get_object_or_404(JobOffer, id=id)
+    form = NewJobOfferForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        return redirect('offerManager')
+    return render(request, "offer_manager_edit.html", {"new_job_offer": form})
+
+
+def offer_manager_details(request, id):
+    offer = get_object_or_404(JobOffer, id=id)
+    template = loader.get_template('offer_manager_details.html')
+    context = {
+        'offer': offer,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+def offer_manager_delete(request, id):
+    offer = get_object_or_404(JobOffer, id=id)
+    offer.delete()
+    return redirect('offerManager')
