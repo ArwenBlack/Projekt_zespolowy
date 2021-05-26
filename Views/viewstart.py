@@ -14,7 +14,6 @@ from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
 from Projekt_zespołowy.models import JobOffer
-
 from Forms.application_form import ApplicationForm
 
 check = 0
@@ -27,7 +26,10 @@ check = 0
 @csrf_exempt
 def main_page(request):
     tags = []
-    data = [first_offer, second_offer]
+
+
+    data = JobOffer.objects.all()
+
     if request.method == 'POST':
         # lista wpisanych i zatwierdzonych tagów
         req = request.POST.copy()
@@ -47,8 +49,9 @@ def main_page(request):
 
 
 def offer_page(request, offer_title):
-    data = [first_offer, second_offer]
-    offer = next(filter(lambda x: x.title == offer_title, data))
+    # data = [first_offer, second_offer]
+    # offer = next(filter(lambda x: x.title == offer_title, data))
+    offer = get_object_or_404(JobOffer, title=offer_title)
     template = loader.get_template('offer.html')
     context = {
         'offer': offer,
