@@ -14,8 +14,16 @@ from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
 from Projekt_zespołowy.models import JobOffer
-
 from Forms.application_form import ApplicationForm
+
+# REGISTER
+from django.shortcuts import  render, redirect
+from Projekt_zespołowy.forms import NewUserForm
+from django.contrib.auth import login
+from django.contrib import messages
+# LOGIN
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import AuthenticationForm
 
 check = 0
 
@@ -27,7 +35,10 @@ check = 0
 @csrf_exempt
 def main_page(request):
     tags = []
-    data = [first_offer, second_offer]
+
+
+    data = JobOffer.objects.all()
+
     if request.method == 'POST':
         # lista wpisanych i zatwierdzonych tagów
         req = request.POST.copy()
@@ -47,8 +58,9 @@ def main_page(request):
 
 
 def offer_page(request, offer_title):
-    data = [first_offer, second_offer]
-    offer = next(filter(lambda x: x.title == offer_title, data))
+    # data = [first_offer, second_offer]
+    # offer = next(filter(lambda x: x.title == offer_title, data))
+    offer = get_object_or_404(JobOffer, title=offer_title)
     template = loader.get_template('offer.html')
     context = {
         'offer': offer,
@@ -98,3 +110,48 @@ def CV_page(request, offer_title):
 
     return render(request, "CV_page.html", {'form': form})
 
+
+def register_request(request):
+    if request.method == "POST":
+        form = NewUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful." )
+            return redirect("main_page")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = NewUserForm
+    return render(request, "register.html", {"register_form": form})
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                messages.info(request, f"You are now logged in as {username}.")
+                return redirect("main_page")
+            else:
+                messages.error(request, "Invalid username or password.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    form = AuthenticationForm()
+    return render(request, "login.html", {"login_form": form})
+
+
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("main_page")
+
+
+def dashboard_page(request):
+    return render(request, "dashboard.html")
+
+
+def offer_manager(request):
+    return render(request, "offer_manager.html")
