@@ -1,10 +1,64 @@
 <!DOCTYPE html>
+
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'bootstraptagsinput.js' %}"></script>
+<link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
+
+
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-MANAGER OFERT
+
+{% if user.is_authenticated %}
+
+ <div class="container" style="padding-bottom: 60px">
+        <main role="main" class="pb-3">
+            <div class="container">
+                <div class="row">
+                <h1 class="display-4">Spis ofert</h1>
+                </div>
+
+                {% if offers %}
+                <div class="row" style="margin-top: 20px; margin-bottom: 30px">
+                    <h3>Liczba dostępnych ofert: {{ offers|length }}</h3>
+                </div>
+                {% for offer in offers %}
+                    <div class="row">
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 style="margin: 0">{{ offer.title }}</h4>
+                                <a href="{% url 'offerManagerDetails' offer.id %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Szczegóły</a>
+                                <a href="{% url 'offerManagerEdit' offer.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Edytuj</a>
+                                <a href="{% url 'offerManagerDelete' offer.id %}" class="btn btn-danger btn-sm" role="button" style="margin-top: 10px; color:white">Usuń</a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% endfor %}
+                {% else %}
+                    <div class="row" style="margin-top: 30px">
+                    <h3>Brak ofert w bazie danych</h3>
+                    </div>
+                {% endif %}
+
+
+                <a href="{% url 'offerManagerAdd' %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Dodaj ofertę</a>
+            </div>
+        </main>
+    </div>
+
 </body>
+
+{% else %}
+<h1>No permission!</h1>
+{% endif %}
+
 </html>
+
