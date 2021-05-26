@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Person(models.Model):
@@ -9,18 +10,6 @@ class Person(models.Model):
 
     def __str__(self):
         return self.name
-
-
-class Role(models.Model):
-    name = models.CharField(max_length=255, null=False, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
-class PersonRole(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
 
 
 class Meeting(models.Model):
@@ -34,6 +23,14 @@ class PersonMeeting(models.Model):
     meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
 
 
+class UserMeeting(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    meeting = models.ForeignKey(Meeting, on_delete=models.CASCADE)
+
+
 class JobOffer(models.Model):
     title = models.CharField(max_length=255, unique=True, null=False)
     isActive = models.BooleanField(null=False)
@@ -44,7 +41,10 @@ class JobOffer(models.Model):
     upperSalaryRange = models.IntegerField(null=False)
     additionalBenefits = models.CharField(max_length=5000)
     niceToHave = models.CharField(max_length=5000)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
         return self.title
@@ -106,4 +106,7 @@ class PromisingCandidate(models.Model):
 class OpinionAboutCandidate(models.Model):
     Content = models.CharField(max_length=5000, null=False)
     candidateId = models.IntegerField(null=False)
-    hrManager = models.ForeignKey(Person, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
