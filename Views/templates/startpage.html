@@ -26,12 +26,31 @@
                 <!-- poprawić collapse -->
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+
+                        <!--  Do obsługi użytkownika zalogowanego i niezalogowanego  -->
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Podgląd strony</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Panel pracownika</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Wyloguj</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Witaj, {{user.username}}</a>
+                        </li>
+                        {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="#">Strona główna</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Zaloguj</a>
+                            <a class="nav-link" href="/login">Login</a>
                         </li>
+                        {% endif %}
+
+
                     </ul>
                 </div>
             </nav>
