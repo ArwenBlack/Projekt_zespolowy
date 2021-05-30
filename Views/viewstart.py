@@ -28,32 +28,21 @@ from django.contrib.auth.forms import AuthenticationForm
 check = 0
 
 
-# dane testowe
-
-
-# TODO: csrf protect
 @csrf_exempt
 def main_page(request):
-    tags = []
-
-
     data = JobOffer.objects.all()
 
     if request.method == 'POST':
-        # lista wpisanych i zatwierdzonych tagów
-        req = request.POST.copy()
-        tags = req.getlist('filterList[]')
+        tags = request.POST.getlist('filter')
         data_filtered = []
         for x in data:
             for t in tags:
                 if t in x.description:
                     data_filtered.append(x)
-        serialized_data = serializers.serialize('json', data)
-        return JsonResponse(serialized_data, safe=False)
-    # filtrowanie ofert na podstawie wpisanych tagów
-    # tablica z ofertami, którą prześle się jako argument
+        # serialized_data = serializers.serialize('json', data)
+        # return JsonResponse(serialized_data, safe=False)
+        data = data_filtered
 
-    # data = JobOffer.objects.all()
     return render(request, "startpage.html", {'data': data})
 
 
