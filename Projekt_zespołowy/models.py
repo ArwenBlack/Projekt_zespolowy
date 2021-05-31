@@ -40,6 +40,7 @@ class JobOffer(models.Model):
     bottomSalaryRange = models.IntegerField(null=False)
     upperSalaryRange = models.IntegerField(null=False)
     additionalBenefits = models.CharField(max_length=5000)
+    requirements = models.CharField(max_length=1000, null=False, default = 'brak')
     niceToHave = models.CharField(max_length=5000)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -48,6 +49,9 @@ class JobOffer(models.Model):
 
     def __str__(self):
         return self.title
+
+    def requirements_split(self):
+        return self.requirements.split(',')
 
     def benefits_split(self):
         return self.additionalBenefits.split(',')
