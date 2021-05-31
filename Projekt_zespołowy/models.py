@@ -4,8 +4,8 @@ from django.db import models
 class Person(models.Model):
     name = models.CharField(max_length=255, null=False)
     secondName = models.CharField(max_length=255, null=False)
-    email = models.CharField(max_length=255, unique=True, null=False)
-    phone = models.CharField(max_length=12, unique=True, null=False)
+    email = models.CharField(max_length=255, null=False)
+    phone = models.CharField(max_length=12, null=False)
 
 
 class Role(models.Model):

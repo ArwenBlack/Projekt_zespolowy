@@ -1,4 +1,6 @@
+import base64
 import os
+from datetime import datetime
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, loader, get_object_or_404, redirect
@@ -13,7 +15,7 @@ from Forms.Cv_form import CVForm
 from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
-from Projekt_zespołowy.models import JobOffer
+from Projekt_zespołowy.models import JobOffer, Person, Application
 
 from Forms.application_form import ApplicationForm
 
@@ -76,20 +78,37 @@ def handle_uploaded_file(f):
 @csrf_protect
 def CV_page(request, offer_title):
     if request.method == 'POST':
-        print(request.POST)
         if 'CV_submit' in request.POST:
             form = CVForm(request.POST, request.FILES)
             if form.is_valid():
                 handle_uploaded_file(request.FILES['CSV_field'])
                 file = request.FILES['CSV_field']
                 data = extract_from_CV('temp_data/' + str(file))
-                os.remove('temp_data/' + str(file))
                 f = ApplicationForm(
-                    initial={'name': data[0], 'surname': data[1], 'phoneNumber': data[2], 'emailAddress': data[3]})
+                    initial={'name': data[0], 'surname': data[1], 'phoneNumber': data[2], 'emailAddress': data[3],
+                             'CV_file': str(file)})
                 return render(request, "application_page.html", {'form': f})
         else:
             form = ApplicationForm(request.POST, request.FILES)
             if form.is_valid():
+                name = form.cleaned_data['name']
+                surname = form.cleaned_data['surname']
+                city = form.cleaned_data['city']
+                phone_number = form.cleaned_data['phoneNumber']
+                email_adress = form.cleaned_data['emailAddress']
+                univercity = form.cleaned_data['university']
+                language = form.cleaned_data['languages']
+                print(offer_title)
+                offer = JobOffer.objects.filter(title=offer_title)
+                print(offer)
+                CV = 'temp_data/' + form.cleaned_data['CV_file']
+                f = open(CV, 'rb')
+                p = Person(name=name, secondName=surname, email=email_adress, phone=phone_number)
+                a = Application(date=datetime.now(), file=f.read(), skills = '',jobOffer=offer, person=p)
+                p.save()
+                a.save()
+                f.close()
+                os.remove(str(CV))
                 return render(request, "application_sent.html")
             form = ApplicationForm()
             return render(request, "application_page.html", {'form': form})
@@ -97,4 +116,3 @@ def CV_page(request, offer_title):
         form = CVForm()
 
     return render(request, "CV_page.html", {'form': form})
-
