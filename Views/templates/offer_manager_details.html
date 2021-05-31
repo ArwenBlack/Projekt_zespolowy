@@ -1,6 +1,6 @@
 {% load static %}
 
-<!DOCTYPE html>
+
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -9,22 +9,6 @@
         <script src="{% static 'bootstraptagsinput.js' %}"></script>
         <link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
 
-
-        <title>
-            Lorem ipsum
-        </title>
-
-
-        {% block menu %}
-            {% include 'navbar.html' %}
-        {% endblock %}
-
-        <div class="p-5 text-center" style="background-color: #e8e8e4">
-            <h1 class="mb-3">Lorem ipsum</h1>
-            <h4 class="mb-3">Lorem ipsum dolor sit amet</h4>
-        </div>
-
-    </head>
 
     <body>
         {% block side_panel %}
@@ -42,7 +26,8 @@
                                 <h1 style="font-size: 20px">Dodatkowe korzyści</h1>
                             </div>
                             <div style="padding-left: 10px">
-                                {% for benefit in offer.benefits_split %}
+                                <!-- zamienic na funkcję z modeli -->
+                                {% for benefit in offer.split_benefits %}
                                     <li class="card-text text-muted">{{ benefit }}</li>
                                 {% endfor %}
                             </div>
@@ -50,7 +35,7 @@
                                 <h1 style="font-size: 20px; padding-top: 10px">Mile widziane</h1>
                             </div>
                             <div style="padding-left: 10px">
-                                {% for nth in offer.nicetohave_split %}
+                                {% for nth in offer.split_nth %}
                                     <li class="card-text text-muted">{{ nth }}</li>
                                 {% endfor %}
                             </div>
@@ -69,7 +54,6 @@
                                 <h1 class="card-title"> {{ offer.title }} </h1>
                                 <p class="card-text text-muted h6"> {{ offer.creation_date }} - {{ offer.dueDate }} </p>
                                 <p class="card-text"> {{ offer.description }} </p>
-                                <a href="{% url 'CV_page' offer.title %}" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black;">Aplikuj</a>
                             </div>
                         </div>
                     </div>

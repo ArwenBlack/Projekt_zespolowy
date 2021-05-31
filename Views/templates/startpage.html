@@ -9,32 +9,13 @@
         <script src="{% static 'bootstraptagsinput.js' %}"></script>
         <link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
 
-
         <title>
             Lorem ipsum
         </title>
 
 
         {% block menu %}
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <a class="navbar-brand" href="#">Lorem ipsum</a>
-
-                <!-- poprawić collapse -->
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Strona główna</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Zaloguj</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+            {% include 'navbar.html' %}
         {% endblock %}
 
         <div class="p-5 text-center" style="background-color: #e8e8e4">
@@ -50,13 +31,18 @@
                 <div class="col-md-5 mt-3 float-right offset-0">
                     <div class="card" style=" align-items: center;">
                         <form action="/" method="POST" id="filter-form">
+                            {% csrf_token %}
                             <!-- max liczba tagów = 5 -->
                             <div>
                                 <input data-role="tagsinput" id="tags_input" type="text" placeholder="Słowo kluczowe" name="filter">
                             </div>
 
                             <div class="row justify-content-center">
-                                <input type="submit" value="Filtruj">
+                                <input type="submit" value="Filtruj" id="submitbtn">
+                            </div>
+
+                            <div class="row justify-content-center">
+                                <a href="{% url 'main_page' %}">Usuń filtry</a>
                             </div>
                         </form>
 
@@ -88,21 +74,6 @@
         {% endblock %}
 
         <script type = "text/javascript">
-            $('#filter-form').submit(function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    type: 'POST',
-                    url:"",
-                    data: {
-                        filterList: $("#tags_input").tagsinput('items')
-                    },
-                    success: function(data) {
-                        $('#offers').html(data.data_filtered);
-            },
-                });
-
-            });
 
             $('#filter-form').bind('keypress', function(e) {
                 if (e.keyCode === 13) {
@@ -111,9 +82,13 @@
                 }
             });
 
-            $("#tags_input").tagsinput({
-                maxTags: 5,
-                maxChars: 20
+            // TODO: max tags error
+
+            $('#submitbtn').click(function(e) {
+                $.ajax({
+                    type: 'POST',
+                    url:"/"
+                });
             });
 
         </script>
