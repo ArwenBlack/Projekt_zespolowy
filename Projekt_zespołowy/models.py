@@ -49,6 +49,12 @@ class JobOffer(models.Model):
     def __str__(self):
         return self.title
 
+    def benefits_split(self):
+        return self.additionalBenefits.split(',')
+
+    def nicetohave_split(self):
+        return self.niceToHave.split(',')
+
     # def __init__(self,a,b,c,d,e,f,g,h,j):
     #     self.title = a
     #     self.isActive =b
