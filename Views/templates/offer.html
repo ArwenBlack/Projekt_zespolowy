@@ -47,6 +47,15 @@
                                 {% endfor %}
                             </div>
                             <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px; padding-top: 10px">Wymagania</h1>
+                            </div>
+                            <div style="padding-left: 10px">
+                                {% for r in offer.requirements_split %}
+                                    <li class="card-text text-muted">{{ r }}</li>
+                                {% endfor %}
+                            </div>
+
+                            <div style="padding-left: 10px">
                                 <h1 style="font-size: 20px; padding-top: 10px">Mile widziane</h1>
                             </div>
                             <div style="padding-left: 10px">

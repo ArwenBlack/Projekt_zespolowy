@@ -5,8 +5,8 @@ from django.conf import settings
 class Person(models.Model):
     name = models.CharField(max_length=255, null=False)
     secondName = models.CharField(max_length=255, null=False)
-    email = models.CharField(max_length=255, unique=True, null=False)
-    phone = models.CharField(max_length=12, unique=True, null=False)
+    email = models.CharField(max_length=255, null=False)
+    phone = models.CharField(max_length=12, null=False)
 
     def __str__(self):
         return self.name
@@ -40,6 +40,7 @@ class JobOffer(models.Model):
     bottomSalaryRange = models.IntegerField(null=False)
     upperSalaryRange = models.IntegerField(null=False)
     additionalBenefits = models.CharField(max_length=5000)
+    requirements = models.CharField(max_length=1000, null=False, default = 'brak')
     niceToHave = models.CharField(max_length=5000)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -48,6 +49,9 @@ class JobOffer(models.Model):
 
     def __str__(self):
         return self.title
+
+    def requirements_split(self):
+        return self.requirements.split(',')
 
     def benefits_split(self):
         return self.additionalBenefits.split(',')

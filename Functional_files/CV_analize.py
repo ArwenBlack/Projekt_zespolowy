@@ -67,12 +67,10 @@ def extract_email(text):
             return None
 
 
-def extract_skills(text):
+def extract_skills(text, skills_list):
     doc = nlp(text)
     tokens = [token.text for token in doc if not token.is_stop]
-    data = pd.read_csv("skills_example.csv", sep=';')
-    skills = list(data.columns.values)
-
+    skills = skills_list.split(',')
     for i in range(len(skills)):
         skills[i] = skills[i].lower()
 
@@ -104,11 +102,12 @@ def extract_skills(text):
     return [i.capitalize() for i in set([i.lower() for i in skill_set])]
 
 
-def extract_from_CV(CV_dokumnet):
+def extract_from_CV(CV_dokumnet, skills_list):
     CV_text = text_from_pdf(CV_dokumnet)
     names = extract_names(CV_text)
     name = names.split()[0]
     surname = names.split()[1]
     phone = extract_phone_number(CV_text)
     mail = extract_email(CV_text)
-    return [name, surname, phone, mail]
+    skills = extract_skills(CV_text, skills_list)
+    return [name, surname, phone, mail, skills]

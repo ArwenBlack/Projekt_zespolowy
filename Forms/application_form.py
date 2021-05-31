@@ -2,7 +2,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import InlineCheckboxes
 
-from crispy_forms.layout import Submit, Layout
+from crispy_forms.layout import Submit, Layout, Field
 
 UNIVERSITIES = (
     ('', 'Wybierz...'),
@@ -40,6 +40,8 @@ class ApplicationForm(forms.Form):
     university = forms.ChoiceField(label='Uniwersytet', choices=UNIVERSITIES)
     languages = forms.MultipleChoiceField(label='Języki', choices=LANGUAGES, widget=forms.CheckboxSelectMultiple)
     other_files_field = forms.FileField(label='Dodaj inne pliki', widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+    CV_file = forms.CharField(label='CV', max_length=100, required=False)
+    skills = forms.CharField(label = 'Skills', max_length=1000, required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -55,7 +57,8 @@ class ApplicationForm(forms.Form):
             'emailAddress',
             'university',
             InlineCheckboxes('languages'),
-            'other_files_field'
-
+            'other_files_field',
+            Field('CV_file', readonly=True),
+            Field('skills', type='hidden')
         )
         self.helper.add_input(Submit('submit', 'Zatwierdź'))
