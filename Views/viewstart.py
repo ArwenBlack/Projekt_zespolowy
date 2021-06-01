@@ -207,10 +207,10 @@ def offer_manager_details(request, id):
     return HttpResponse(template.render(context, request))
 
 
-def offer_manager_delete(request, id):
-    offer = get_object_or_404(JobOffer, id=id)
+def offer_manager_delete(request, offer_id):
+    offer = get_object_or_404(JobOffer, id=offer_id)
     offer.delete()
-    return redirect('offerManager')
+    return redirect('offer_manager')
 
 
 def offer_applications(request):
@@ -218,4 +218,23 @@ def offer_applications(request):
     context = {
         'offers': data
     }
-    return render(request, "dashboard_offer_manager.html", context)
+    return render(request, "dashboard_applications.html", context)
+
+
+def offer_applications_details(request, id):
+    offer = get_object_or_404(JobOffer, id=id)
+    applications = Application.objects.all().filter(jobOffer=id);
+    context = {
+        'offer': offer,
+        'applications': applications
+    }
+
+    return render(request, "dashboard_applications_details.html", context)
+
+
+def offer_applications_person_details(request, id):
+    application = get_object_or_404(Application, id=id)
+    context ={
+        'application': application
+    }
+    return render(request, "dashboard_applications_person_details.html", context)
