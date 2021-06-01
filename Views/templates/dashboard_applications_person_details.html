@@ -15,20 +15,30 @@
     <title>Title</title>
 </head>
 <body>
-
     {% block menu %}
             {% include 'navbarDash.html' %}
         {% endblock %}
-
-    <h1>Aplikacja na ofertę: {{application.jobOffer.title}}</h1>
-    <br>
-    <h4>Imie: {{application.person.name}}</h4>
-    <h4>Nazwisko: {{application.person.secondName}}</h4>
-    <h4>Email: {{application.person.email}}</h4>
-    <h4>Telefon: {{application.person.phone}}</h4>
-    <br>
-    <h4>Data złożenia aplikacji: {{application.date}}</h4>
-    <h4>Umiejętności: {{application.skills}}</h4>
-    <h4>CV - tu trzeba jakoś wyświetlić cv z DB - application.file   xD</h4>
+            <div class="container" >
+                <div class="row">
+                    <div class="col-md-12 mt-3 left">
+                        <div class="card mb-4 bg-light" >
+                            <div class="card-body">
+                                <h1 class="card-title" style="text-align: center">Aplikacja na ofertę: {{application.jobOffer.title}}</h1>
+                            </div>
+                        </div>
+                        <div class="card mb-4 bg-light" >
+                            <div class="card-body">
+                                <p class="card-text"> Imie: {{application.person.name}} </p>
+                                <p class="card-text"> Nazwisko: {{application.person.secondName}} </p>
+                                <p class="card-text"> Email: {{application.person.email}} </p>
+                                <p class="card-text"> Telefon: {{application.person.phone}} </p>
+                                <p class="card-text"> Data złożenia aplikacji: {{application.person.date}} </p>
+                                <p class="card-text"> Umiejętności: {{application.person.skills}} </p>
+                                <p class="card-text"> Treść CV: {{ application.file }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 </body>
 </html>

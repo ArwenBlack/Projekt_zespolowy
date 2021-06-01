@@ -25,12 +25,12 @@
  <div class="container" style="padding-bottom: 60px">
         <main role="main" class="pb-3">
             <div class="container">
-                <div class="row">
+                <div class="row" style="justify-content: center">
                 <h1 class="display-4">Spis ofert</h1>
                 </div>
 
                 {% if offers %}
-                <div class="row" style="margin-top: 20px; margin-bottom: 30px">
+                <div class="row" style="margin-top: 20px; margin-bottom: 30px;justify-content: center">
                     <h3>Liczba dostępnych ofert: {{ offers|length }}</h3>
                 </div>
                 {% for offer in offers %}

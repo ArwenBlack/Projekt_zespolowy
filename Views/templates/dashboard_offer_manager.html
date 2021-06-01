@@ -22,21 +22,21 @@
             {% include 'navbarDash.html' %}
         {% endblock %}
 
- <div class="container" style="padding-bottom: 60px">
-        <main role="main" class="pb-3">
-            <div class="container">
-                <div class="row">
+ <div class="container" style="padding-bottom: 60px; justify-content: center">
+        <main role="main" class="pb-3" style="justify-content: center">
+            <div class="container" style="justify-content: center; align-content: center; alignment: center">
+                <div class="row" style="justify-content: center">
                 <h1 class="display-4">Spis ofert</h1>
                 </div>
 
                 {% if offers %}
-                <div class="row" style="margin-top: 20px; margin-bottom: 30px">
+                <div class="row" style="margin-top: 20px; margin-bottom: 30px; justify-content: center">
                     <h3>Liczba dostępnych ofert: {{ offers|length }}</h3>
                 </div>
                 {% for offer in offers %}
                     <div class="row">
                         <div class="media">
-                            <div class="media-body">
+                            <div >
                                 <h4 style="margin: 0">{{ offer.title }}</h4>
                                 <a href="{% url 'offer_manager_details' offer.id %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Szczegóły</a>
                                 <a href="{% url 'offer_manager_edit' offer.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Edytuj</a>
@@ -52,8 +52,9 @@
                     </div>
                 {% endif %}
 
-
-                <a href="{% url 'offer_manager_add' %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Dodaj ofertę</a>
+               <div class="d-flex justify-content-center">
+                <a href="{% url 'offer_manager_add' %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white;">Dodaj ofertę</a>
+                   </div>
             </div>
         </main>
     </div>

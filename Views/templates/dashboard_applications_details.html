@@ -23,20 +23,23 @@
             {% block side_panel %}
             <div class="container">
                 <div class="col-md-5 mt-3 float-right offset-0">
-                    <div class="card">
-                        <div class="card-body">
+                    <div class="card ">
+                        <div class="card-body ">
                             <div style="padding-left: 10px; padding-bottom:30px; text-align: center;">
                                 <h1 style="font-size: 20px">Osoby które aplikowały</h1>
                             </div>
                             {% for application in applications %}
-                                <div class="row">
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <h4 style="margin: 0; font-size:16px;">{{ application.person.name }} {{application.person.secondName}}</h4>
-                                        <a href="{% url 'offer_applications_person_details' application.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Zobacz szczegóły</a>
+
+                                    <div class="Center-aligned media">
+                                        <div class="media-body justify-content-center">
+                                            <h4 style="margin: 0; font-size:16px;text-align: center">{{ application.person.name }} {{application.person.secondName}}</h4>
+                                            <div class="d-flex justify-content-center">
+                                            <a href="{% url 'offer_applications_person_details' application.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Zobacz szczegóły</a>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
+
                                 <hr>
                             {% endfor %}
                         </div>
