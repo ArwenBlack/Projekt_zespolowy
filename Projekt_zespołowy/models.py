@@ -88,13 +88,7 @@ class Application(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
-class Experience(models.Model):
-    name = models.CharField(max_length=255, null=False)
-    description = models.CharField(max_length=512)
-    startDate = models.DateField(null=False)
-    endDate = models.DateField()
-    stillWorking = models.BooleanField(null=False)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+
 
 
 class Education(models.Model):
