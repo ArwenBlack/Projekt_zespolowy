@@ -29,5 +29,6 @@ urlpatterns = [
     path("dashboard/applications/person/details/<int:id>",
          viewstart.offer_applications_person_details, name="offer_applications_person_details")
 
+
 ]
 
