@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'bootstraptagsinput.js' %}"></script>
+<link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
+
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+ {% block menu %}
+            {% include 'navbarDash.html' %}
+        {% endblock %}
+
+            {% block side_panel %}
+            <div class="container">
+                <div class="col-md-5 mt-3 float-right offset-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <div style="padding-left: 10px; padding-bottom:30px; text-align: center;">
+                                <h1 style="font-size: 20px">Osoby które aplikowały</h1>
+                            </div>
+                            {% for application in applications %}
+                                <div class="row">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <h4 style="margin: 0; font-size:16px;">{{ application.person.name }} {{application.person.secondName}}</h4>
+                                        <a href="{% url 'offer_applications_person_details' application.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Zobacz szczegóły</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block offer %}
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 mt-3 left">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h1 class="card-title"> {{ offer.title }} </h1>
+                                <p class="card-text text-muted h6"> {{ offer.creation_date }} - {{ offer.dueDate }} </p>
+                                <p class="card-text"> {{ offer.description }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+
+</body>
+</html>

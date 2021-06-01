@@ -13,7 +13,7 @@
             {% include 'navbarDash.html' %}
         {% endblock %}
 
-    <body>
+        <body>
         {% block side_panel %}
             <div class="container">
                 <div class="col-md-5 mt-3 float-right offset-0">
@@ -29,16 +29,24 @@
                                 <h1 style="font-size: 20px">Dodatkowe korzyści</h1>
                             </div>
                             <div style="padding-left: 10px">
-                                <!-- zamienic na funkcję z modeli -->
-                                {% for benefit in offer.split_benefits %}
+                                {% for benefit in offer.benefits_split %}
                                     <li class="card-text text-muted">{{ benefit }}</li>
                                 {% endfor %}
                             </div>
                             <div style="padding-left: 10px">
+                                <h1 style="font-size: 20px; padding-top: 10px">Wymagania</h1>
+                            </div>
+                            <div style="padding-left: 10px">
+                                {% for r in offer.requirements_split %}
+                                    <li class="card-text text-muted">{{ r }}</li>
+                                {% endfor %}
+                            </div>
+
+                            <div style="padding-left: 10px">
                                 <h1 style="font-size: 20px; padding-top: 10px">Mile widziane</h1>
                             </div>
                             <div style="padding-left: 10px">
-                                {% for nth in offer.split_nth %}
+                                {% for nth in offer.nicetohave_split %}
                                     <li class="card-text text-muted">{{ nth }}</li>
                                 {% endfor %}
                             </div>
