@@ -15,7 +15,7 @@ from Forms.Cv_form import CVForm
 from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
-from Projekt_zespołowy.models import JobOffer, Person, Application, Experience, Education
+from Projekt_zespołowy.models import JobOffer, Person, Application,  Education
 
 from Forms.application_form import ApplicationForm, LANGUAGES
 
