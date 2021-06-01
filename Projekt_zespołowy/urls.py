@@ -23,15 +23,12 @@ urlpatterns = [
     path("dashboard/offerManager/edit/<int:id>", viewstart.offer_manager_edit, name="offer_manager_edit"),
     path("dashboard/offerManager/delete/<int:id>", viewstart.offer_manager_delete, name="offer_manager_delete"),
 
-<<<<<<< HEAD
-    path("dashboard/applications", viewstart.offer_applications, name="offer_applications")
-=======
     path("dashboard/applications", viewstart.offer_applications, name="offer_applications"),
     path("dashboard/applications/details/<int:id>",
          viewstart.offer_applications_details, name="offer_applications_details"),
     path("dashboard/applications/person/details/<int:id>",
          viewstart.offer_applications_person_details, name="offer_applications_person_details")
 
->>>>>>> master
+
 ]
 

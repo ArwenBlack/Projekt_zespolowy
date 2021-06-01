@@ -89,11 +89,8 @@ class Application(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
 
-
-
-
 class Education(models.Model):
-    uni_name = models.CharField(max_length=255, null=False)
+    uni_name = models.CharField(max_length=255, null=False, default = 'brak')
     languages = models.CharField(max_length = 1000, null = False, default = 'brak')
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
 
