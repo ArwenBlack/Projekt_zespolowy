@@ -98,13 +98,8 @@ class Experience(models.Model):
 
 
 class Education(models.Model):
-    name = models.CharField(max_length=255, null=False)
-
-    description = models.CharField(max_length=5000)
-
-    degree = models.CharField(max_length=255, null=False)
-    graduationDateOrExpectedDate = models.DateField(null=False)
-    inProgress = models.BooleanField(null=False)
+    uni_name = models.CharField(max_length=255, null=False)
+    languages = models.CharField(max_length = 1000, null = False, default = 'brak')
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
 
 

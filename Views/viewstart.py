@@ -15,10 +15,9 @@ from Forms.Cv_form import CVForm
 from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
-from Projekt_zespołowy.models import JobOffer, Person, Application
+from Projekt_zespołowy.models import JobOffer, Person, Application, Experience, Education
 
-from Forms.application_form import ApplicationForm
-
+from Forms.application_form import ApplicationForm, LANGUAGES
 
 from django.shortcuts import  render, redirect
 from Projekt_zespołowy.forms import NewUserForm, NewJobOfferForm
@@ -101,20 +100,25 @@ def CV_page(request, offer_title):
             if form.is_valid():
                 name = form.cleaned_data['name']
                 surname = form.cleaned_data['surname']
-                city = form.cleaned_data['city']
                 phone_number = form.cleaned_data['phoneNumber']
                 email_adress = form.cleaned_data['emailAddress']
                 university = form.cleaned_data['university']
-                language = form.cleaned_data['languages']
+                language = form.cleaned_data.get('languages')
+                languages = []
+                language_dict = dict(LANGUAGES)
+                for n in language:
+                    languages.append(str(language_dict[n]))
                 skills = form.cleaned_data['skills']
                 offer = JobOffer.objects.filter(title=offer_title)[0]
                 CV = 'temp_data/' + form.cleaned_data['CV_file']
                 f = open(CV, 'rb')
                 p = Person(name=name, secondName=surname, email=email_adress, phone=phone_number)
                 a = Application(date=datetime.now(), file=f.read(), skills = skills ,jobOffer=offer, person=p)
+                e = Education(uni_name = university, languages = ','.join(languages), application = a)
                 p.save()
                 a.save()
                 f.close()
+                e.save()
                 os.remove(str(CV))
                 return render(request, "application_sent.html")
             form = ApplicationForm()
