@@ -12,6 +12,10 @@
 
 {% load crispy_forms_tags %}
 
+ {% block menu %}
+            {% include 'navbarDash.html' %}
+        {% endblock %}
+
 <div class="container py-5">
 	<h1>Edytuj</h1>
 	<form method="POST">
