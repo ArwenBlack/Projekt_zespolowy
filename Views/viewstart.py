@@ -125,7 +125,6 @@ def CV_page(request, offer_title):
     return render(request, "CV_page.html", {'form': form})
 
 
-
 def register_request(request):
     if request.method == "POST":
         form = NewUserForm(request.POST)
@@ -173,7 +172,7 @@ def offer_manager(request):
     context = {
         'offers': data
     }
-    return render(request, "offer_manager.html", context)
+    return render(request, "dashboard_offer_manager.html", context)
 
 
 def offer_manager_add(request):
@@ -183,7 +182,7 @@ def offer_manager_add(request):
             form.save()
 
     form = NewJobOfferForm
-    return render(request, "offer_manager_add.html", {"new_job_offer": form})
+    return render(request, "dashboard_offer_manager_add.html", {"new_job_offer": form})
 
 
 def offer_manager_edit(request, id):
@@ -192,12 +191,12 @@ def offer_manager_edit(request, id):
     if form.is_valid():
         form.save()
         return redirect('offerManager')
-    return render(request, "offer_manager_edit.html", {"new_job_offer": form})
+    return render(request, "dashboard_offer_manager_edit.html", {"new_job_offer": form})
 
 
 def offer_manager_details(request, id):
     offer = get_object_or_404(JobOffer, id=id)
-    template = loader.get_template('offer_manager_details.html')
+    template = loader.get_template('dashboard_offer_manager_details.html')
     context = {
         'offer': offer,
     }
@@ -208,3 +207,11 @@ def offer_manager_delete(request, id):
     offer = get_object_or_404(JobOffer, id=id)
     offer.delete()
     return redirect('offerManager')
+
+
+def offer_applications(request):
+    data = JobOffer.objects.all()
+    context = {
+        'offers': data
+    }
+    return render(request, "dashboard_offer_manager.html", context)

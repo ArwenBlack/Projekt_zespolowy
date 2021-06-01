@@ -38,9 +38,9 @@
                         <div class="media">
                             <div class="media-body">
                                 <h4 style="margin: 0">{{ offer.title }}</h4>
-                                <a href="{% url 'offerManagerDetails' offer.id %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Szczegóły</a>
-                                <a href="{% url 'offerManagerEdit' offer.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Edytuj</a>
-                                <a href="{% url 'offerManagerDelete' offer.id %}" class="btn btn-danger btn-sm" role="button" style="margin-top: 10px; color:white">Usuń</a>
+                                <a href="{% url 'offer_manager_details' offer.id %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Szczegóły</a>
+                                <a href="{% url 'offer_manager_edit' offer.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Edytuj</a>
+                                <a href="{% url 'offer_manager_delete' offer.id %}" class="btn btn-danger btn-sm" role="button" style="margin-top: 10px; color:white">Usuń</a>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                 {% endif %}
 
 
-                <a href="{% url 'offerManagerAdd' %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Dodaj ofertę</a>
+                <a href="{% url 'offer_manager_add' %}" class="btn btn-primary btn-sm" role="button" style="margin-top: 10px; color:white">Dodaj ofertę</a>
             </div>
         </main>
     </div>
