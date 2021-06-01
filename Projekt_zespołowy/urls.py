@@ -24,6 +24,5 @@ urlpatterns = [
     path("dashboard/offerManager/delete/<int:id>", viewstart.offer_manager_delete, name="offer_manager_delete"),
 
     path("dashboard/applications", viewstart.offer_applications, name="offer_applications")
-
 ]
 
