@@ -9,6 +9,9 @@
         <script src="{% static 'bootstraptagsinput.js' %}"></script>
         <link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
 
+     {% block menu %}
+            {% include 'navbarDash.html' %}
+        {% endblock %}
 
     <body>
         {% block side_panel %}

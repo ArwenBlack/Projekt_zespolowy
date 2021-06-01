@@ -71,6 +71,7 @@ class JobOffer(models.Model):
     #     self.niceToHave = j
 
 
+# TODO wywalić xD
 class Requirement(models.Model):
     name = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=512, null=False)

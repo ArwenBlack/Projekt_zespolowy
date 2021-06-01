@@ -17,11 +17,13 @@ urlpatterns = [
 
     path("dashboard", viewstart.dashboard_page, name="dashboard"),
 
-    path("offerManager", viewstart.offer_manager, name="offerManager"),
-    path("offerManager/add/", viewstart.offer_manager_add, name="offerManagerAdd"),
-    path("offerManager/details/<int:id>", viewstart.offer_manager_details, name="offerManagerDetails"),
-    path("offerManager/edit/<int:id>", viewstart.offer_manager_edit, name="offerManagerEdit"),
-    path("offerManager/delete/<int:id>", viewstart.offer_manager_delete, name="offerManagerDelete")
+    path("dashboard/offerManager", viewstart.offer_manager, name="offer_manager"),
+    path("dashboard/offerManager/add/", viewstart.offer_manager_add, name="offer_manager_add"),
+    path("dashboard/offerManager/details/<int:id>", viewstart.offer_manager_details, name="offer_manager_details"),
+    path("dashboard/offerManager/edit/<int:id>", viewstart.offer_manager_edit, name="offer_manager_edit"),
+    path("dashboard/offerManager/delete/<int:id>", viewstart.offer_manager_delete, name="offer_manager_delete"),
+
+    path("dashboard/applications", viewstart.offer_applications, name="offer_applications")
 
 ]
 
