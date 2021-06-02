@@ -1,0 +1,32 @@
+{% extends 'calendar_base.html' %}
+
+{% block content %}
+    <style>
+
+    #left-button {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        background-color: #E8E8E4 !important;
+        border: none;
+        color: black;
+        float: right;
+    }
+
+    #right-button {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        background-color: #E8E8E4 !important;
+        border: none;
+        color: black;
+        float:right;
+    }
+
+    </style>
+    {{ calendar }}
+    <div>
+    <a class="btn btn-primary" id="left-button" href="{% url 'calendar' %}?{{ prev_month }}"> Poprzedni miesiąc </a>
+    <div class="divider" style="margin-top: 20px; width:15px;height:auto;display:inline-block;"></div>
+    <a class="btn btn-primary" id="right-button" href="{% url 'calendar' %}?{{ next_month }}"> Następny miesiąc </a>
+    </div>
+
+{% endblock %}

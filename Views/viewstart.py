@@ -2,6 +2,7 @@ import base64
 import os
 from datetime import datetime
 
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, loader, get_object_or_404, redirect
 from django.urls import reverse
@@ -12,10 +13,11 @@ from django.core import serializers
 from django.forms.models import model_to_dict
 # dane testowe
 from Forms.Cv_form import CVForm
+from Forms.meeting_form import MeetingForm
 from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Views.TestFiles.test_offeR_2 import second_offer
-from Projekt_zespołowy.models import JobOffer, Person, Application,  Education
+from Projekt_zespołowy.models import JobOffer, Person, Application, Education, PersonMeeting, UserMeeting, Meeting
 
 from Forms.application_form import ApplicationForm, LANGUAGES
 
@@ -238,3 +240,37 @@ def offer_applications_person_details(request, id):
         'application': application
     }
     return render(request, "dashboard_applications_person_details.html", context)
+
+
+def meeting_view(request):
+    meeting = Meeting.objects.get(pk=request.GET.get('meeting', ''))
+
+    if request.method == 'POST':
+        form = MeetingForm(request.POST, initial={'date': meeting.start_time})
+        if form.is_valid():
+            person = form.cleaned_data['candidate']
+            employees = form.cleaned_data['user']
+            print(employees)
+            meeting.is_free = False
+            meeting.save()
+
+            new_person_meeting = PersonMeeting(
+                person=Person.objects.get(pk=person),
+                meeting=meeting
+            )
+
+            new_person_meeting.save()
+
+            for user in employees:
+                new_user_meeting = UserMeeting(
+                    user=User.objects.get(id=int(user)),
+                    meeting=meeting
+                )
+                new_user_meeting.save()
+            return redirect('calendar')
+
+    else:
+        form = MeetingForm(initial={'date': meeting.start_time})
+
+    return render(request, 'meeting_form.html', {'form': form})
+

@@ -1,0 +1,24 @@
+<!-- cal/templates/cal/base.html -->
+
+{% load static %}
+<!doctype html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="{% static 'calendar.css' %}">
+        <title>Kalendarz</title>
+
+        {% block menu %}
+            {% include 'navbar.html' %}
+        {% endblock %}
+    </head>
+    <body>
+
+        {% block content %}
+        {% endblock %}
+
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>
