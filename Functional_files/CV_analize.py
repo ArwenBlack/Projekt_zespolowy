@@ -5,7 +5,6 @@ from spacy.matcher import Matcher
 from spacy_langdetect import LanguageDetector
 from spacy.language import Language
 import pandas as pd
-
 import difflib
 
 nlp = spacy.load('en_core_web_md')
