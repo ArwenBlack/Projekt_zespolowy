@@ -11,11 +11,18 @@ class Person(models.Model):
     def __str__(self):
         return self.name
 
+    def get_name(self):
+        return self.name + " " + self.secondName
+
+    def get_id(self):
+        return str(self.id)
+
 
 class Meeting(models.Model):
     title = models.CharField(max_length=255, null=False)
     description = models.CharField(max_length=512)
-    date = models.DateField(null=False)
+    start_time = models.DateTimeField(null=True)
+    is_free = models.BooleanField(null=False, default=True)
 
 
 class PersonMeeting(models.Model):
