@@ -3,30 +3,30 @@
 {% block content %}
     <style>
 
-    #left-button {
-        margin-top: 20px;
+    #button {
         margin-bottom: 10px;
         background-color: #E8E8E4 !important;
         border: none;
         color: black;
         float: right;
-    }
+        width: 200px;
 
-    #right-button {
-        margin-top: 20px;
-        margin-bottom: 10px;
-        background-color: #E8E8E4 !important;
-        border: none;
-        color: black;
-        float:right;
     }
 
     </style>
-    {{ calendar }}
-    <div>
-    <a class="btn btn-primary" id="left-button" href="{% url 'calendar' %}?{{ prev_month }}"> Poprzedni miesiąc </a>
-    <div class="divider" style="margin-top: 20px; width:15px;height:auto;display:inline-block;"></div>
-    <a class="btn btn-primary" id="right-button" href="{% url 'calendar' %}?{{ next_month }}"> Następny miesiąc </a>
+    <div class="col-md-12" style="margin-top: 30px; margin-bottom: 30px">
+        <div class="card mb-6">
+            <div class="card-body">
+                {{ calendar }}
+                <div class="input-group">
+                    <a class="btn btn-primary" href="/newmeeting/" id="button">Dodaj spotkanie</a>
+                </div>
+                <div class="input-group">
+                    <a class="btn btn-primary" id="button" href="{% url 'calendar' %}?{{ prev_month }}"> Poprzedni miesiąc </a>
+                    <a class="btn btn-primary" style="margin-left: 10px;" id="button" href="{% url 'calendar' %}?{{ next_month }}"> Następny miesiąc </a>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}

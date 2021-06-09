@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        {% block menu %}
+            {% include 'navbar.html' %}
+        {% endblock %}
+    </head>
+
+    <body>
+        <div class="container" style="padding-top: 20px">
+            <div class="row justify-content-center">
+                <div class="col-8">
+                {% load crispy_forms_tags %}
+                    {% block content %}
+                        {% crispy form %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
