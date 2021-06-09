@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from Views import viewstart
 from Views.calendar_view import CalendarView
+from Views import meeting_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,7 +29,8 @@ urlpatterns = [
          viewstart.offer_applications_details, name="offer_applications_details"),
     path("dashboard/applications/person/details/<int:id>",
          viewstart.offer_applications_person_details, name="offer_applications_person_details"),
-    path("meeting/", viewstart.meeting_view, name="meeting"),
+    path("meeting/", meeting_views.edit_meeting_view, name="meeting"),
+    path("newmeeting/", meeting_views.new_meeting_view, name="new_meeting"),
     path("calendar/", CalendarView.as_view(), name='calendar')
 
 

@@ -82,14 +82,12 @@
                 }
             });
 
-            // TODO: max tags error
-
-            $('#submitbtn').click(function(e) {
-                $.ajax({
-                    type: 'POST',
-                    url:"/"
-                });
+            $("#tags_input").tagsinput({
+                maxTags: 5,
+                maxChars: 20
             });
+
+            // TODO: max tags error
 
         </script>
     </body>
