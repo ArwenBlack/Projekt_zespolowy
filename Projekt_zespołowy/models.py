@@ -109,7 +109,8 @@ class PromisingCandidate(models.Model):
 
 class OpinionAboutCandidate(models.Model):
     Content = models.CharField(max_length=5000, null=False)
-    candidateId = models.IntegerField(null=False)
+    candidate = models.ForeignKey(Person, on_delete=models.CASCADE, null=True)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE, null=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

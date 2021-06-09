@@ -1,4 +1,5 @@
 import os
+from collections import defaultdict
 from datetime import datetime
 
 from django.contrib.auth.models import User
@@ -10,7 +11,8 @@ from Forms.Cv_form import CVForm
 from Forms.meeting_form import MeetingForm
 from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
-from Projekt_zespołowy.models import JobOffer, Person, Application, Education, PersonMeeting, UserMeeting, Meeting
+from Projekt_zespołowy.models import JobOffer, Person, Application, Education, PersonMeeting, UserMeeting, Meeting, \
+    OpinionAboutCandidate
 
 from Forms.application_form import ApplicationForm, LANGUAGES
 
@@ -209,9 +211,20 @@ def offer_applications(request):
 def offer_applications_details(request, id):
     offer = get_object_or_404(JobOffer, id=id)
     applications = Application.objects.all().filter(jobOffer=id);
+    applications_and_opinions = {}
+
+    for application in applications:
+        opinion = OpinionAboutCandidate.objects.filter(application=application)
+        if opinion.exists():
+            applications_and_opinions[application] = opinion[0]
+        else:
+            applications_and_opinions[application] = None
+
+    print(applications_and_opinions)
     context = {
         'offer': offer,
-        'applications': applications
+        'applications': applications,
+        'app_opinion': applications_and_opinions
     }
 
     return render(request, "dashboard_applications_details.html", context)
@@ -219,7 +232,12 @@ def offer_applications_details(request, id):
 
 def offer_applications_person_details(request, id):
     application = get_object_or_404(Application, id=id)
-    context ={
+    context = {
         'application': application
     }
     return render(request, "dashboard_applications_person_details.html", context)
+
+
+def opinions_view(request, id):
+    opinion = OpinionAboutCandidate.objects.all().get(pk=id)
+    return render(request, "opinion_page.html", {'opinion': opinion})

@@ -31,7 +31,8 @@ urlpatterns = [
          viewstart.offer_applications_person_details, name="offer_applications_person_details"),
     path("meeting/", meeting_views.edit_meeting_view, name="meeting"),
     path("newmeeting/", meeting_views.new_meeting_view, name="new_meeting"),
-    path("calendar/", CalendarView.as_view(), name='calendar')
+    path("calendar/", CalendarView.as_view(), name='calendar'),
+    path("dashboard/application/opinion/<int:id>", viewstart.opinions_view, name='opinion')
 
 
 ]
