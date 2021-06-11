@@ -3,6 +3,7 @@ from django.urls import path
 from Views import viewstart
 from Views.calendar_view import CalendarView
 from Views import meeting_views
+from Views.viewstart import employ
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,7 +33,8 @@ urlpatterns = [
     path("meeting/", meeting_views.edit_meeting_view, name="meeting"),
     path("newmeeting/", meeting_views.new_meeting_view, name="new_meeting"),
     path("calendar/", CalendarView.as_view(), name='calendar'),
-    path("dashboard/application/opinion/<int:id>", viewstart.opinions_view, name='opinion')
+    path("dashboard/application/opinion/<int:id>", viewstart.opinions_view, name='opinion'),
+    path('employ/<int:id>/', employ, name='employ')
 
 
 ]

@@ -22,6 +22,7 @@ from django.contrib import messages
 # LOGIN
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
+from Functional_files.mail_sender import mail_sender, set_email_content
 check = 0
 
 
@@ -240,4 +241,11 @@ def offer_applications_person_details(request, id):
 
 def opinions_view(request, id):
     opinion = OpinionAboutCandidate.objects.all().get(pk=id)
+    return render(request, "opinion_page.html", {'opinion': opinion})
+
+
+def employ(request, id):
+    opinion = OpinionAboutCandidate.objects.all().get(pk=id)
+    email_content = set_email_content(opinion.candidate.name, opinion.application.jobOffer.title)
+    mail_sender(email_content, "<nazwa firmy> zaprasza do współpracy.", opinion.candidate.email)
     return render(request, "opinion_page.html", {'opinion': opinion})

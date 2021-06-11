@@ -29,11 +29,43 @@
                                     {% if request.user == opinion.user %}
                                         <a href="#" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black;">Edytuj</a>
                                     {% endif %}
+
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warningEmploy">Zatrudnij aplikanta</button>
+
+                                    <div class="modal fade" id="warningEmploy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Ostrzeżenie</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                            </button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Czy na pewno chcesz zatrudnić aplikanta "{{ opinion.candidate.name }} {{ opinion.candidate.secondName }}" na stanowisko "{{ opinion.application.jobOffer.title }}"?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-dismiss="modal">Nie</button>
+                                              <a href="/employ/{{ opinion.id }}/">
+                                            <button type="button" class="btn btn-primary">Tak</button>
+                                              </a>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                 </div>
                         </div>
+
                     </div>
                 </div>
             </div>
+        <script>
+
+        function myFunction() {
+        var x = document.getElementById("myDIV");
+        x.style.display = "block";
+        }
+        </script>
 
     {% endblock %}
 
