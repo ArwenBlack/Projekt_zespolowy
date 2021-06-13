@@ -1,4 +1,5 @@
 import os
+import webbrowser
 from collections import defaultdict
 from datetime import datetime
 
@@ -16,13 +17,14 @@ from Projekt_zespołowy.models import JobOffer, Person, Application, Education, 
 
 from Forms.application_form import ApplicationForm, LANGUAGES
 
-from django.shortcuts import  render, redirect
+from django.shortcuts import render, redirect
 from Projekt_zespołowy.forms import NewUserForm, NewJobOfferForm
 from django.contrib import messages
 # LOGIN
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from Functional_files.mail_sender import mail_sender, set_email_content
+
 check = 0
 
 
@@ -78,10 +80,13 @@ def CV_page(request, offer_title):
                 file = request.FILES['CSV_field']
                 offer = JobOffer.objects.filter(title=offer_title)[0]
                 data = extract_from_CV('temp_data/' + str(file), offer.requirements)
+                print(data)
                 skills_char = ",".join(data[4])
                 f = ApplicationForm(
-                    initial={'name': data[0], 'surname': data[1], 'phoneNumber': data[2], 'emailAddress': data[3], 'skills': skills_char,
+                    initial={'name': data[0], 'surname': data[1], 'phoneNumber': data[2], 'emailAddress': data[3],
+                             'skills': skills_char,
                              'CV_file': str(file)})
+                print(skills_char)
                 return render(request, "application_page.html", {'form': f})
         else:
             form = ApplicationForm(request.POST, request.FILES)
@@ -97,12 +102,13 @@ def CV_page(request, offer_title):
                 for n in language:
                     languages.append(str(language_dict[n]))
                 skills = form.cleaned_data['skills']
+                print(skills)
                 offer = JobOffer.objects.filter(title=offer_title)[0]
                 CV = 'temp_data/' + form.cleaned_data['CV_file']
                 f = open(CV, 'rb')
                 p = Person(name=name, secondName=surname, email=email_adress, phone=phone_number)
-                a = Application(date=datetime.now(), file=f.read(), skills = skills ,jobOffer=offer, person=p)
-                e = Education(uni_name = university, languages = ','.join(languages), application = a)
+                a = Application(date=datetime.now(), file=f.read(), skills=skills, jobOffer=offer, person=p)
+                e = Education(uni_name=university, languages=','.join(languages), application=a)
                 p.save()
                 a.save()
                 f.close()
@@ -123,7 +129,7 @@ def register_request(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Registration successful." )
+            messages.success(request, "Registration successful.")
             return redirect("main_page")
         messages.error(request, "Unsuccessful registration. Invalid information.")
     form = NewUserForm
@@ -220,8 +226,6 @@ def offer_applications_details(request, id):
             applications_and_opinions[application] = opinion[0]
         else:
             applications_and_opinions[application] = None
-
-    print(applications_and_opinions)
     context = {
         'offer': offer,
         'applications': applications,
@@ -233,10 +237,19 @@ def offer_applications_details(request, id):
 
 def offer_applications_person_details(request, id):
     application = get_object_or_404(Application, id=id)
+    f = open(os.path.dirname(__file__) + '/../temp_data/temp_file.pdf', 'wb')
+    CV_file = application.file
+    f.write(CV_file)
+    f.close()
     context = {
         'application': application
     }
     return render(request, "dashboard_applications_person_details.html", context)
+
+
+def get_CV(request, id):
+    webbrowser.open_new(os.path.dirname(__file__) + '/../temp_data/temp_file.pdf')
+    return offer_applications_person_details(request,id)
 
 
 def opinions_view(request, id):

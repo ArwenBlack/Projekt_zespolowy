@@ -32,9 +32,10 @@
                                 <p class="card-text"> Nazwisko: {{application.person.secondName}} </p>
                                 <p class="card-text"> Email: {{application.person.email}} </p>
                                 <p class="card-text"> Telefon: {{application.person.phone}} </p>
-                                <p class="card-text"> Data złożenia aplikacji: {{application.person.date}} </p>
-                                <p class="card-text"> Umiejętności: {{application.person.skills}} </p>
-                                <p class="card-text"> Treść CV: {{ application.file }} </p>
+                                <p class="card-text"> Data złożenia aplikacji: {{application.date}} </p>
+                                <p class="card-text"> Umiejętności: {{application.skills}} </p>
+                                <p class="card-text"> Treść CV: </p>
+                                <a class = "btn btn-primary" href='{% url 'get_CV' application.id %}' >Pobierz CV</a>
                             </div>
                         </div>
                     </div>
