@@ -34,7 +34,8 @@ urlpatterns = [
     path("newmeeting/", meeting_views.new_meeting_view, name="new_meeting"),
     path("calendar/", CalendarView.as_view(), name='calendar'),
     path("dashboard/application/opinion/<int:id>", viewstart.opinions_view, name='opinion'),
-    path('employ/<int:id>/', employ, name='employ')
+    path('employ/<int:id>/', employ, name='employ'),
+    path('dashboard/applications/person/details/<int:id>/CV', viewstart.get_CV, name= "get_CV")
 
 
 ]
