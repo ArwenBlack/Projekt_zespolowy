@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_protect
 
 from Forms.Cv_form import CVForm
 from Forms.meeting_form import MeetingForm
+from Forms.opinion_form import OpinionForm
 from Functional_files.CV_analize import extract_from_CV
 from Views.TestFiles.test_offer import first_offer
 from Projekt_zespołowy.models import JobOffer, Person, Application, Education, PersonMeeting, UserMeeting, Meeting, \
@@ -249,7 +250,33 @@ def offer_applications_person_details(request, id):
 
 def get_CV(request, id):
     webbrowser.open_new(os.path.dirname(__file__) + '/../temp_data/temp_file.pdf')
-    return offer_applications_person_details(request,id)
+    return offer_applications_person_details(request, id)
+
+
+
+def opinion_add(request, id):
+    application = get_object_or_404(Application, id=id)
+    if request.method == "POST":
+        f = OpinionForm(request.POST)
+        if f.is_valid():
+            if OpinionAboutCandidate.objects.filter(candidate= application.person):
+                ex_canditate = OpinionAboutCandidate.objects.filter(candidate= application.person)
+                ex_candidate_id = ex_canditate[0].id
+                ex_candidate_data = get_object_or_404(OpinionAboutCandidate, id = ex_candidate_id)
+                user = get_object_or_404(User, id=f.cleaned_data['user'])
+                ex_candidate_data.Content = f.cleaned_data['content']
+                ex_candidate_data.user = user
+                ex_candidate_data.save()
+                return render(request, "opinion_page.html", {'opinion': ex_candidate_data})
+            else:
+                user = get_object_or_404(User, id = f.cleaned_data['user'])
+                opinion_cadidate = OpinionAboutCandidate(Content = f.cleaned_data['content'], candidate= application.person,
+                                                     application = application, user = user)
+                opinion_cadidate.save()
+                return render(request, "opinion_save_page.html", {'application': application})
+    else:
+        f = OpinionForm()
+    return render(request, "opinion_form.html", {'form': f,  'application': application})
 
 
 def opinions_view(request, id):

@@ -35,7 +35,7 @@
                                             <div class="d-flex justify-content-center">
                                                     <a href="{% url 'offer_applications_person_details' app.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; margin-right: 15px; color:white">Zobacz szczegóły</a>
                                                     {% if opinion is None %}
-                                                        <a href="#" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Wystaw opinię</a>
+                                                        <a href="{% url 'opinion_person' app.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Wystaw opinię</a>
                                                     {% else %}
                                                         <a href="{% url 'opinion' opinion.id %}" class="btn btn-secondary btn-sm" role="button" style="margin-top: 10px; color:white">Zobacz opinię</a>
                                                     {% endif %}

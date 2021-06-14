@@ -47,7 +47,7 @@ class JobOffer(models.Model):
     bottomSalaryRange = models.IntegerField(null=False)
     upperSalaryRange = models.IntegerField(null=False)
     additionalBenefits = models.CharField(max_length=5000)
-    requirements = models.CharField(max_length=1000, null=False, default = 'brak')
+    requirements = models.CharField(max_length=1000, null=False, default='brak')
     niceToHave = models.CharField(max_length=5000)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -97,8 +97,8 @@ class Application(models.Model):
 
 
 class Education(models.Model):
-    uni_name = models.CharField(max_length=255, null=False, default = 'brak')
-    languages = models.CharField(max_length = 1000, null = False, default = 'brak')
+    uni_name = models.CharField(max_length=255, null=False, default='brak')
+    languages = models.CharField(max_length=1000, null=False, default='brak')
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
 
 

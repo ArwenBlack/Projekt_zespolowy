@@ -12,18 +12,12 @@
         <h1 class="mb-3">Opinia o kandydacie:  {{ application.person.name}} {{ application.person.secondName }}</h1>
         <h4 class="mb-3">Aplikującym na ofertę: {{application.jobOffer.title}}</h4>
     </div>
-
     <body>
-
-        <div class="container" style="padding-top: 20px">
-            <div class="row justify-content-center">
-                <div class="col-8">
-                {% load crispy_forms_tags %}
-                    {% block content %}
-                        {% crispy form %}
-                    {% endblock %}
-                </div>
-            </div>
+        <div class="col-md-12 text-center">
+        <h1 class="header" style="margin-top: 30px; text-align: center">
+            Opinia została złożona
+        </h1>
+        <a class="btn btn-primary" href="{% url 'offer_applications' %}" style="margin-top: 50px; align-content: center">Wróć do listy aplikacji</a>
         </div>
     </body>
 

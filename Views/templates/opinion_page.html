@@ -21,13 +21,15 @@
                     <div class="col-md-12 mt-3 left">
                         <div class="card mb-4">
                                 <h1 class="card-header">
+                                    <div class = "p-4 text-center">
                                     Opinia o kandydacie {{ opinion.candidate.name }} {{ opinion.candidate.secondName }}
                                     aplikującym na stanowisko {{ opinion.application.jobOffer.title }}</h1>
+                                    </div>
                                 <div class="card-body">
                                     <p class="card-text text-muted h6"> Wystawiona przez {{ opinion.user.username }} </p>
                                     <p class="card-text"> {{ opinion.Content }} </p>
                                     {% if request.user == opinion.user %}
-                                        <a href="#" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black;">Edytuj</a>
+                                        <a href="{% url 'opinion_person' opinion.application.id %}" class="btn btn-primary" style="background-color: #E8E8E4 !important;border: none; color: black;">Edytuj</a>
                                     {% endif %}
 
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#warningEmploy">Zatrudnij aplikanta</button>
