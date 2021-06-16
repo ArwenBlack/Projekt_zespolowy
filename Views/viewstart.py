@@ -249,7 +249,7 @@ def offer_applications_person_details(request, id):
 
 
 def get_CV(request, id):
-    webbrowser.open_new(os.path.dirname(__file__) + '/../temp_data/temp_file.pdf')
+    webbrowser.open_new_tab(os.path.dirname(__file__) + '/../temp_data/temp_file.pdf')
     return offer_applications_person_details(request, id)
 
 
