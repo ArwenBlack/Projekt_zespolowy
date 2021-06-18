@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from Forms.meeting_form import MeetingForm
@@ -31,8 +31,9 @@ def initial_data(meeting):
         if usr_meeting.meeting == meeting:
             users.append(str(usr_meeting.user.id))
 
-    return {'date': meeting.start_time.date,
-            'time': meeting.start_time.time,
+    time = meeting.start_time + timedelta(hours=2)
+    return {'date': meeting.start_time.date(),
+            'time': time.time(),
             'descr': meeting.description,
             'title': meeting.title,
             'candidate': str(candidate),
@@ -97,7 +98,6 @@ def new_meeting_view(request):
 
         if form.is_valid():
             date, time, candidate, employees, title, descr = get_data(form)
-
             meeting = Meeting(title=title, description=descr, start_time=datetime.combine(date, time), is_free=True)
             save_meeting(meeting, candidate, employees)
 

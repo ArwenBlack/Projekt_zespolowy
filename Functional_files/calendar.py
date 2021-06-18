@@ -1,4 +1,6 @@
 from calendar import HTMLCalendar
+from datetime import timedelta
+
 from Projekt_zespołowy.models import Meeting
 import locale
 
@@ -16,7 +18,7 @@ class Calendar(HTMLCalendar):
 
         hour = ''
         for event in events_per_day:
-            time = event.start_time.time().strftime('%H:%M')
+            time = (event.start_time + timedelta(hours=2)).time().strftime('%H:%M')
 
             if event.is_free:
                 hour += f'<li> <a style="color: #8bcc9c;" ' \
