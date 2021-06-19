@@ -174,11 +174,23 @@ def offer_manager(request):
     return render(request, "dashboard_offer_manager.html", context)
 
 
+
 def offer_manager_add(request):
     if request.method == "POST":
         form = NewJobOfferForm(request.POST)
+
         if form.is_valid():
-            form.save()
+            current_user = request.user
+            new_offer = JobOffer(title=form.data['title'],
+                                 isActive=form.cleaned_data.get('isActive'),
+                                 creation_date=form.data['creation_date'], dueDate=form.data['dueDate'],
+                                 description=form.data['description'], bottomSalaryRange=form.data['bottomSalaryRange'],
+                                 upperSalaryRange=form.data['upperSalaryRange'],
+                                 additionalBenefits=form.data['additionalBenefits'],
+                                 requirements=form.data['requirements'], niceToHave=form.data['niceToHave'],
+                                 user=current_user)
+            new_offer.save()
+            return render(request, "dashboard_offer_manager_success.html")
 
     form = NewJobOfferForm
     return render(request, "dashboard_offer_manager_add.html", {"new_job_offer": form})
@@ -189,7 +201,7 @@ def offer_manager_edit(request, id):
     form = NewJobOfferForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
-        return redirect('offerManager')
+        return redirect('offer_manager')
     return render(request, "dashboard_offer_manager_edit.html", {"new_job_offer": form})
 
 
@@ -202,8 +214,8 @@ def offer_manager_details(request, id):
     return HttpResponse(template.render(context, request))
 
 
-def offer_manager_delete(request, offer_id):
-    offer = get_object_or_404(JobOffer, id=offer_id)
+def offer_manager_delete(request, id):
+    offer = get_object_or_404(JobOffer, id=id)
     offer.delete()
     return redirect('offer_manager')
 

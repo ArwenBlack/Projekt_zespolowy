@@ -24,4 +24,5 @@ class NewJobOfferForm(forms.ModelForm):
 
 	class Meta:
 		model = JobOffer
-		fields = "__all__"
+		exclude = ['user']
+		# fields = "__all__"

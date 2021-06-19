@@ -1,0 +1,23 @@
+{% load static %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static 'bootstraptagsinput.js' %}"></script>
+<link rel="stylesheet" href="{% static 'bootstraptagsinput.css'%}">
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style="width: 80%; margin:auto; text-align:center; margin-top:20%">
+    <h1>Oferta została utworzona</h1>
+    <a style="margin-top:20px" class="btn btn-primary" href="{% url 'offer_manager' %}">Powrót do managera</a>
+    </div>
+</body>
+</html>
