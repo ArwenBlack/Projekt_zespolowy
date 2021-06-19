@@ -66,27 +66,6 @@ class JobOffer(models.Model):
     def nicetohave_split(self):
         return self.niceToHave.split(',')
 
-    # def __init__(self,a,b,c,d,e,f,g,h,j):
-    #     self.title = a
-    #     self.isActive =b
-    #     self.creation_date = c
-    #     self.dueDate = d
-    #     self.description = e
-    #     self.bottomSalaryRange=f
-    #     self.upperSalaryRange = g
-    #     self.additionalBenefits = h
-    #     self.niceToHave = j
-
-
-# TODO wywalić xD
-class Requirement(models.Model):
-    name = models.CharField(max_length=255, null=False)
-    description = models.CharField(max_length=512, null=False)
-    jobOffer = models.ForeignKey(JobOffer, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
 
 class Application(models.Model):
     date = models.DateField(null=False)
