@@ -37,8 +37,7 @@ urlpatterns = [
     path("dashboard/applications/opinion/saved/<int:id>", viewstart.opinion_add, name='opinion_person_saved'),
     path("dashboard/applications/opinion/<int:id>", viewstart.opinions_view, name='opinion'),
     path('employ/<int:id>/', employ, name='employ'),
-    path('dashboard/applications/person/details/<int:id>/CV', viewstart.get_CV, name= "get_CV")
-
+    path('dashboard/applications/person/details/<int:id>/CV', viewstart.get_CV, name= "get_CV"),
 
 ]
 
