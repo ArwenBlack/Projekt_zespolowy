@@ -7,13 +7,14 @@
         <title>
             {% block title %}
                 Lorem ipsum
-            {% endblock %} 
+            {% endblock %}
         </title>
 
 
         {% block menu %}
             {% include 'navbar.html' %}
         {% endblock %}
+
 
     <div class="p-5 text-center" style="background-color: #e8e8e4">
         <h1 class="mb-3">Lorem ipsum</h1>
@@ -22,7 +23,17 @@
     </head>
 
     <body>
+
     <div class="container" style="padding-top: 20px">
+    <div class = "row justify-content-center" style = "color: red ">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <lu{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</lu>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
         <div class="row justify-content-center">
             <div class="col-8">
             {% load crispy_forms_tags %}

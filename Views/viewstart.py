@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import loader, get_object_or_404
 from django.views.decorators.csrf import csrf_protect
+from pdfminer.high_level import extract_text
 
 from Forms.Cv_form import CVForm
 from Forms.meeting_form import MeetingForm
@@ -38,7 +39,7 @@ def main_page(request):
         data_filtered = []
         for x in data:
             for t in tags:
-                if t in x.description:
+                if t.lower() in x.description.lower() or t in x.requirements.lower():
                     data_filtered.append(x)
         # serialized_data = serializers.serialize('json', data)
         # return JsonResponse(serialized_data, safe=False)
@@ -65,10 +66,24 @@ def offer_page_test(request):
     return render(request, "offer.html", {'offer': data})
 
 
+def are_you_pdf(f):
+    try:
+        extract_text('temp_data/' + f.name)
+        return True
+    except:
+        return False
+
+
 def handle_uploaded_file(f):
     with open('temp_data/' + f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
+    pdf = are_you_pdf(f)
+    print(pdf)
+    if pdf:
+        return True
+    else:
+        return False
 
 
 @csrf_protect
@@ -77,8 +92,13 @@ def CV_page(request, offer_title):
         if 'CV_submit' in request.POST:
             form = CVForm(request.POST, request.FILES)
             if form.is_valid():
-                handle_uploaded_file(request.FILES['CSV_field'])
+                maybe_pdf = handle_uploaded_file(request.FILES['CSV_field'])
                 file = request.FILES['CSV_field']
+                if not maybe_pdf:
+                    messages.error(request, "Dodaj plik w formacie PDF")
+                    form = CVForm()
+                    return render(request, "CV_page.html", {'form': form})
+
                 offer = JobOffer.objects.filter(title=offer_title)[0]
                 data = extract_from_CV('temp_data/' + str(file), offer.requirements)
                 print(data)
@@ -174,23 +194,11 @@ def offer_manager(request):
     return render(request, "dashboard_offer_manager.html", context)
 
 
-
 def offer_manager_add(request):
     if request.method == "POST":
         form = NewJobOfferForm(request.POST)
-
         if form.is_valid():
-            current_user = request.user
-            new_offer = JobOffer(title=form.data['title'],
-                                 isActive=form.cleaned_data.get('isActive'),
-                                 creation_date=form.data['creation_date'], dueDate=form.data['dueDate'],
-                                 description=form.data['description'], bottomSalaryRange=form.data['bottomSalaryRange'],
-                                 upperSalaryRange=form.data['upperSalaryRange'],
-                                 additionalBenefits=form.data['additionalBenefits'],
-                                 requirements=form.data['requirements'], niceToHave=form.data['niceToHave'],
-                                 user=current_user)
-            new_offer.save()
-            return render(request, "dashboard_offer_manager_success.html")
+            form.save()
 
     form = NewJobOfferForm
     return render(request, "dashboard_offer_manager_add.html", {"new_job_offer": form})
@@ -201,7 +209,7 @@ def offer_manager_edit(request, id):
     form = NewJobOfferForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
-        return redirect('offer_manager')
+        return redirect('offerManager')
     return render(request, "dashboard_offer_manager_edit.html", {"new_job_offer": form})
 
 
@@ -214,8 +222,8 @@ def offer_manager_details(request, id):
     return HttpResponse(template.render(context, request))
 
 
-def offer_manager_delete(request, id):
-    offer = get_object_or_404(JobOffer, id=id)
+def offer_manager_delete(request, offer_id):
+    offer = get_object_or_404(JobOffer, id=offer_id)
     offer.delete()
     return redirect('offer_manager')
 
@@ -265,30 +273,30 @@ def get_CV(request, id):
     return offer_applications_person_details(request, id)
 
 
-
 def opinion_add(request, id):
     application = get_object_or_404(Application, id=id)
     if request.method == "POST":
         f = OpinionForm(request.POST)
         if f.is_valid():
-            if OpinionAboutCandidate.objects.filter(candidate= application.person):
-                ex_canditate = OpinionAboutCandidate.objects.filter(candidate= application.person)
+            if OpinionAboutCandidate.objects.filter(candidate=application.person):
+                ex_canditate = OpinionAboutCandidate.objects.filter(candidate=application.person)
                 ex_candidate_id = ex_canditate[0].id
-                ex_candidate_data = get_object_or_404(OpinionAboutCandidate, id = ex_candidate_id)
+                ex_candidate_data = get_object_or_404(OpinionAboutCandidate, id=ex_candidate_id)
                 user = get_object_or_404(User, id=f.cleaned_data['user'])
                 ex_candidate_data.Content = f.cleaned_data['content']
                 ex_candidate_data.user = user
                 ex_candidate_data.save()
                 return render(request, "opinion_page.html", {'opinion': ex_candidate_data})
             else:
-                user = get_object_or_404(User, id = f.cleaned_data['user'])
-                opinion_cadidate = OpinionAboutCandidate(Content = f.cleaned_data['content'], candidate= application.person,
-                                                     application = application, user = user)
+                user = get_object_or_404(User, id=f.cleaned_data['user'])
+                opinion_cadidate = OpinionAboutCandidate(Content=f.cleaned_data['content'],
+                                                         candidate=application.person,
+                                                         application=application, user=user)
                 opinion_cadidate.save()
                 return render(request, "opinion_save_page.html", {'application': application})
     else:
         f = OpinionForm()
-    return render(request, "opinion_form.html", {'form': f,  'application': application})
+    return render(request, "opinion_form.html", {'form': f, 'application': application})
 
 
 def opinions_view(request, id):
