@@ -209,7 +209,7 @@ def offer_manager_edit(request, id):
     form = NewJobOfferForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
-        return redirect('offerManager')
+        return redirect('offer_manager')
     return render(request, "dashboard_offer_manager_edit.html", {"new_job_offer": form})
 
 
